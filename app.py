@@ -39,12 +39,22 @@ def voice():
 	# resp.say("Hello Monkey")
 	# return str(resp)
 
+    response = twiml.Response()
+    with response.gather(numDigits=1, action="/gather") as gather:
+        gather.say("Press 1 to indicate The Ramones are the best band ever.")
+    return str(response)
+
+@app.route('/gather', methods=['GET','POST'])
+def gather():
+	
 	response = twiml.Response()
-	# response.play("http://bananaphone.herokuapp.com/static/img/BananaPhone.mp3")
-	response.say("hello monkey")
+	digits = request.form['Digits']
+	
+	if digits == "1":
+		response.say("You are correct.  The Ramones are the best.")
+	else:
+		response.say("You are wrong.  Never call me again.")
 	return str(response)
-
-
 
 @app.route('/twilio', methods=['GET','POST'])
 def twilio():
