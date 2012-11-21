@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 import os, datetime
 import re
-from unidecode import unidecode
+# from unidecode import unidecode
 
 from flask import Flask, request, render_template, redirect, abort, jsonify
 import requests
 
 # Twilio
+
+from twilio import twiml
 from twilio.rest import TwilioRestClient
 from twilio.util import TwilioCapability
 
-import twilio.twiml
 
 # create Flask app
 app = Flask(__name__)   # create our flask app
@@ -33,11 +34,16 @@ def ghost_demo():
 @app.route("/voice", methods=['GET', 'POST'])
 def voice():
 
-	"""Respond to incoming requests."""
-	resp = twilio.twiml.Response()
-	resp.say("Hello Monkey")
+	# """Respond to incoming requests."""
+	# resp = twilio.twiml.Response()
+	# resp.say("Hello Monkey")
+	# return str(resp)
 
-	return str(resp)
+	response = twiml.Response()
+	# response.play("http://bananaphone.herokuapp.com/static/img/BananaPhone.mp3")
+	response.say("hello monkey")
+	return str(response)
+
 
 
 @app.route('/twilio', methods=['GET','POST'])
