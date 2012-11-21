@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os, datetime
 import re
-# from unidecode import unidecode
 
 from flask import Flask, request, render_template, redirect, abort, jsonify
 import requests
@@ -34,17 +33,12 @@ def ghost_demo():
 @app.route("/voice", methods=['GET', 'POST'])
 def voice():
 
-	# """Respond to incoming requests."""
-	# resp = twilio.twiml.Response()
-	# resp.say("Hello Monkey")
-	# return str(resp)
-
 	# incoming call
 	# PUSHER tells browser to show map
 
     response = twiml.Response()
     with response.gather(numDigits=1, action="/gather") as gather:
-        gather.say("Press 1 to indicate The Ramones are the best band ever.")
+        gather.say("Welcome to Ghosts' Village. Press 1 to learn about the Shirtwaist Factory.")
     return str(response)
 
 @app.route('/gather', methods=['GET','POST'])
@@ -55,48 +49,14 @@ def gather():
 	
 	if digits == "1":
 		response.say("You are correct.  The Ramones are the best.")
+		response.play("static/audio/01TriangleShirtwaistFire.mp3")
 		app.logger.info("they pressed 1")
 		#pusher broadcasts 1
-
 
 	else:
 		response.say("You are wrong.  Never call me again.")
 	return str(response)
 
-@app.route('/twilio', methods=['GET','POST'])
-def twilio():
-	
-	if request.method == "GET":
-		return render_template('twilio.html')
-
-	elif request.method == "POST":
-
-		telephone = request.form.get('telephone')
-		sms_text = request.form.get('sms_text')
-
-		# prepare telephone number. regex, only numbers
-		telephone_num = re.sub("\D", "", telephone)
-		if len(telephone_num) != 11:
-			return "your target phone number must be 11 digits. go back and try again."
-		else:
-			to_number = "+" + str(telephone_num) #US country only now
-
-
-		# trim message to 120
-		if len(sms_text) > 120:
-			sms_text = sms_text[0:119]
-
-		account = os.environ.get('TWILIO_ACCOUNT_SID')
-		token = os.environ.get('TWILIO_AUTH_TOKEN')
-
-		client = TwilioRestClient(account, token)
-
-		from_telephone = os.environ.get('TWILIO_PHONE_NUMBER') # format +19171234567
-
-		message = client.sms.messages.create(to=to_number, from_=from_telephone,
-	                                     body="DWD DEMO: " + sms_text)
-
-		return "message '%s' sent" % sms_text
 
 @app.errorhandler(404)
 def page_not_found(error):
