@@ -20,13 +20,13 @@ app = Flask(__name__)   # create our flask app
 # --------- Routes ----------
 @app.route('/')
 def ghost_demo():
-	account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
-	auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
-	application_sid = os.environ.get('TWILIO_APP_SID')
+	# account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+	# auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+	# application_sid = os.environ.get('TWILIO_APP_SID')
 
-	capability = TwilioCapability(account_sid, auth_token)
-	capability.allow_client_outgoing(application_sid)
-	token = capability.generate()
+	# capability = TwilioCapability(account_sid, auth_token)
+	# capability.allow_client_outgoing(application_sid)
+	# token = capability.generate()
 
 	return render_template('index.html')
 
@@ -39,6 +39,9 @@ def voice():
 	# resp.say("Hello Monkey")
 	# return str(resp)
 
+	# incoming call
+	# PUSHER tells browser to show map
+
     response = twiml.Response()
     with response.gather(numDigits=1, action="/gather") as gather:
         gather.say("Press 1 to indicate The Ramones are the best band ever.")
@@ -46,12 +49,16 @@ def voice():
 
 @app.route('/gather', methods=['GET','POST'])
 def gather():
-	
+
 	response = twiml.Response()
 	digits = request.form['Digits']
 	
 	if digits == "1":
 		response.say("You are correct.  The Ramones are the best.")
+		app.logger.info("they pressed 1")
+		#pusher broadcasts 1
+
+
 	else:
 		response.say("You are wrong.  Never call me again.")
 	return str(response)
