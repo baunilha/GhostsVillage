@@ -8,6 +8,8 @@ import requests
 
 # Twilio
 from twilio.rest import TwilioRestClient
+from twilio.util import TwilioCapability
+
 import twilio.twiml
 
 # create Flask app
@@ -15,30 +17,27 @@ app = Flask(__name__)   # create our flask app
 
 
 # --------- Routes ----------
-@app.route('/', methods=['GET'])
+@app.route('/')
 def ghost_demo():
-	
 	account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
-    auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+	auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+	application_sid = os.environ.get('TWILIO_APP_SID')
 
-    # This is a special Quickstart application sid - or configure your own
-    # at twilio.com/user/account/apps
-    application_sid = os.environ.get('TWILIO_APP_SID')
+	capability = TwilioCapability(account_sid, auth_token)
+	capability.allow_client_outgoing(application_sid)
+	token = capability.generate()
 
-    capability = TwilioCapability(account_sid, auth_token)
-    capability.allow_client_outgoing(application_sid)
-    token = capability.generate()
-
-	return render_template('index.html', token=token)
+	return render_template('index.html')
 
 
 @app.route("/voice", methods=['GET', 'POST'])
 def voice():
-    """Respond to incoming requests."""
-    resp = twilio.twiml.Response()
-    resp.say("Hello Monkey")
- 
-    return str(resp)
+
+	"""Respond to incoming requests."""
+	resp = twilio.twiml.Response()
+	resp.say("Hello Monkey")
+
+	return str(resp)
 
 
 @app.route('/twilio', methods=['GET','POST'])
