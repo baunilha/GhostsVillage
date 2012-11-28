@@ -53,7 +53,7 @@ def voice():
     with response.gather(numDigits=1, action="/gather") as gather:
         gather.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.")  
 
-    return str(response)
+    return render_template('index.html', response=response)
 
 
 @app.route('/gather', methods=['GET','POST'])
@@ -66,7 +66,7 @@ def gather():
 		response.play("static/audio/01TriangleShirtwaistFire.mp3")
 		app.logger.info("they pressed 1")
 		#pusher broadcasts 1
-		return render_template('index.html')
+		
 	else:
 		response.say("You are wrong.  Never call me again.")
 	return str(response)
