@@ -15,8 +15,9 @@ app = Flask(__name__)   # create our flask app
 
 
 # --------- Routes ----------
-@app.route('/')
+@app.route('/', methods=['GET'])
 def ghost_demo():
+	
 	account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
     auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
 
@@ -31,8 +32,8 @@ def ghost_demo():
 	return render_template('index.html', token=token)
 
 
-@app.route("/demo", methods=['GET', 'POST'])
-def hello_monkey():
+@app.route("/voice", methods=['GET', 'POST'])
+def voice():
     """Respond to incoming requests."""
     resp = twilio.twiml.Response()
     resp.say("Hello Monkey")
