@@ -5,20 +5,15 @@
 {% block body %}
 
 <div class="row">
-  
-  <!--<img src="../static/img/HomeImg.png"> 
 
-   <div class="span6">
-    <iframe width='1280' height='800' frameBorder='0' src='http://a.tiles.mapbox.com/v3/baunilha.map-strc2w0s.html#16/40.73037536921354/-73.99818586960039'></iframe>
-    <img src="../static/img/i2.png" style="position: absolute; top: 0; left: 0;"/>
-  </div> -->
+      <iframe id="map_places" width='1280' height='800' frameBorder='0' src='http://a.tiles.mapbox.com/v3/baunilha.map-dq5f4vpi.html#16/40.733089417448404/-73.99809841537471' style="position: absolute; top: 0; left: 0;"></iframe>
       
-  		<iframe width='1280' height='800' frameBorder='0' src='http://a.tiles.mapbox.com/v3/baunilha.map-strc2w0s.html#16/40.73037536921354/-73.99818586960039' style="position: absolute; top: 0; left: 0;"></iframe>
+  		<iframe id="map_pure" width='1280' height='800' frameBorder='0' src='http://a.tiles.mapbox.com/v3/baunilha.map-strc2w0s.html#16/40.733089417448404/-73.99809841537471' style="position: absolute; top: 0; left: 0;"></iframe>
   		
-      <img id="phone" src="../static/img/layertop.png" style="position: absolute; top: 0; left: 0;"/>
+      <img id="phone" src="../static/img/phoneLayer.png" height="800" width="1281" style="position: absolute; top: 0; left: 0;"/>
 
       <div id="video_div" class="span5" style="position: absolute; top: 30px; left: 30px;">
-    <!-- video appears here -->
+      <!-- video appears here -->
       </div>
   		
 </div>
@@ -49,7 +44,7 @@
 
 
   function displayPhoneImg() {
-    jQuery('img#phone').show();
+    jQuery('img#phone').show(); // shows the phone layer back after video is finished
     jQuery('#video_div').html(''); //remove iframe from videodiv
   }
 
@@ -57,7 +52,7 @@
   // choosing video function
   function display_video(message) {
     console.dir(message);
-    jQuery("img#phone").hide();
+    jQuery("img#phone").hide(); // hide the phone layer when video starts
 
     if (message == "1") {
       video = 'hZPXzP4nXWY';
