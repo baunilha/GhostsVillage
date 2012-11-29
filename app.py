@@ -71,7 +71,7 @@ def gather():
 		#pusher broadcasts 1
 
 	if digits == "2":
-		response.play("static/audio/01TriangleShirtwaistFire.mp3")
+		response.play("static/audio/02GhostsWSP.mp3")
 		app.logger.info("they pressed 2")
 		p['ghost_demo'].trigger('incoming_digits',{'msg':str(digits)})
 		#pusher broadcasts 2
