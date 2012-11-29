@@ -50,9 +50,10 @@ def voice():
 
     response = twiml.Response()
 
-    with response.gather(numDigits=1, action="/gather") as gather:
-        gather.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.")
-        gather.gather(numDigits=1, action="/ghost", method="POST")  
+    with response.gather(numDigits=1, action="/gather") as g:
+        g.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.")
+        
+    with response.gather(numDigits=1, action="/ghost", method="POST")  
 
     return str(response)
 
