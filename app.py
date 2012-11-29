@@ -28,13 +28,7 @@ p = pusher.Pusher()
 # --------- Routes ----------
 @app.route('/', methods=['GET', 'POST'])
 def index():
-	# account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
-	# auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
-	# application_sid = os.environ.get('TWILIO_APP_SID')
 
-	# capability = TwilioCapability(account_sid, auth_token)
-	# capability.allow_client_outgoing(application_sid)
-	# token = capability.generate()
 	templateData = {
 		'PUSHER_KEY' : os.environ.get('PUSHER_KEY')
 	}
