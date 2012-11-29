@@ -51,7 +51,8 @@ def voice():
     response = twiml.Response()
 
     with response.gather(numDigits=1, action="/gather") as gather:
-        gather.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.")  
+        gather.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.")
+        gather.gather(numDigits=1, action="/ghost", method="POST")  
 
     return str(response)
 
@@ -76,35 +77,9 @@ def gather():
 @app.route('/ghost', methods=['GET','POST'])
 def ghost_test():
 
-	response = twiml.Response()
+	digit_pressed = request.args.get('Digits', None)
 
-    with response.gather(numDigits=1, action="/gather") as gather:
-        gather.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.") 
-
-	# received a POST request
-	if request.method == 'POST':
-		digits = request.form['Digits']
-		
-		if digits:
-
-			# send message for broadcast to pusher
-			p['ghost_demo'].trigger('incoming_digits',{'msg':digits})
-
-			# respond to ajax request
-			return jsonify(status='OK',message='message sent:%s' % digits)
-			
-		else:
-			return jsonify(status='ERROR',message='no digits received')
-
-	else:
-
-		# GET request render template with pusher_key
-		templateData = {
-			'PUSHER_KEY' : os.environ.get('PUSHER_KEY')
-		}
-		return render_template('pusher_chat.html', **templateData)
-
-	return str(response)
+	return render_template('pusher_ghost.html', digit_pressed=digit_pressed)
 
 
 # CHAT ROUTE
