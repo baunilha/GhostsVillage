@@ -15,15 +15,12 @@
       
   		<iframe width='1280' height='800' frameBorder='0' src='http://a.tiles.mapbox.com/v3/baunilha.map-strc2w0s.html#16/40.73037536921354/-73.99818586960039' style="position: absolute; top: 0; left: 0;"></iframe>
   		
-      <img src="../static/img/layertop.png" style="position: absolute; top: 0; left: 0;"/>
+      <img id="phone" src="../static/img/layertop.png" style="position: absolute; top: 0; left: 0;"/>
 
       <div id="video_div" class="span5" style="position: absolute; top: 30px; left: 30px;">
-    <!-- message end up  here -->
+    <!-- video appears here -->
       </div>
-
-      <!-- <div id="ytapiplayer" class="span5"></div> -->
   		
-
 </div>
 
 
@@ -47,41 +44,36 @@
     channel.bind('incoming_digits', function(data){
       console.log(data);
       
-      //display_video(data.msg); //display the new video
-
-      // couch potato example
-      // video_id = data.video.video_id;
-      //ytplayer.loadVideoById(video_id); // load youtube video 
-      
-      display_video(data.msg);
+      display_video(data.msg); // display the video
     });
 
-  // setup youtube player
-    //var params = { allowScriptAccess: "always" };
-    
-    // var atts = { id: "myytplayer" };
-    
-    // swfobject.embedSWF("http://www.youtube.com/v/YU3kJBcvPl4?enablejsapi=1&playerapiid=ytplayer&version=3",
-                       //"ytapiplayer", "425", "356", "8", null, null, params, atts);
-    
-    // function onYouTubePlayerReady(playerId) {
-    //   ytplayer = document.getElementById("myytplayer");
-    // }
+
+  function displayPhoneImg() {
+    jQuery('img#phone').show();
+    jQuery('#video_div').html(''); //remove iframe from videodiv
+  }
+
 
   // choosing video function
   function display_video(message) {
     console.dir(message);
+    jQuery("img#phone").hide();
+
     if (message == "1") {
       video = 'hZPXzP4nXWY';
+      
+      setInterval(displayPhoneImg,60000); // 60 second timer for hiding/displaying
+
     }
     if (message == "2") {
       video = 'z66jDrc1EQY';
+      setInterval(displayPhoneImg,60000); // 60 second timer for hiding/displaying
     }
+
     video_html = '<iframe width="560" height="315" src="http://www.youtube.com/embed/' + video + '?autoplay=1" frameborder="0" allowfullscreen></iframe>';
+
     jQuery('#video_div').html(video_html);
 
-    //swfobject.embedSWF("http://www.youtube.com/v/YU3kJBcvPl4?enablejsapi=1&playerapiid=video&version=3",
-                       //"ytapiplayer", "425", "356", "8", null, null, params);
   }
     
 

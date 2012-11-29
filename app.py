@@ -59,29 +59,26 @@ def gather():
 	digits = request.form['Digits']
 	
 	if digits == "1":
+		#twilio plays audio 1
 		response.play("static/audio/01TriangleShirtwaistFire.mp3")
 		app.logger.info("they pressed 1")
+
+		#pusher broadcasts video 1
 		p['ghost_demo'].trigger('incoming_digits',{'msg':str(digits)})
-		#pusher broadcasts 1
+		
 
 	if digits == "2":
+		#twilio plays audio 2
 		response.play("static/audio/02GhostsWSP.mp3")
 		app.logger.info("they pressed 2")
+
+		#pusher broadcasts video 2
 		p['ghost_demo'].trigger('incoming_digits',{'msg':str(digits)})
-		#pusher broadcasts 2
+		
 
 	else:
-		response.say("You are wrong.  Never call me again.")
+		response.say("Never call me again.")
 	return str(response)
-
-
-# TEST
-@app.route('/ghost', methods=['GET','POST'])
-def ghost_test():
-
-	digit_pressed = request.args.get('Digits', None)
-
-	return render_template('pusher_ghost.html', digit_pressed=digit_pressed)
 
 
 # CHAT ROUTE
