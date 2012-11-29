@@ -5,13 +5,13 @@
 {% block body %}
 
 <div class="row">
-	<div id="chatlist" class="span5">
+	<div id="videoposition" class="span8">
 		<!-- message end up  here -->
 	</div>
 
 
 	<div class="span5" id="searchform">
-		<input type="text" id="digits" placeholder="Enter a message">
+		<input type="text" id="digits" placeholder="Enter a number 1 - 9">
 		<button id="send_btn" class="btn btn-success" >Send Message</button>
 	</div>
 	<br>
@@ -37,24 +37,24 @@
     WEB_SOCKET_DEBUG = true;
 
     var pusher = new Pusher('{{ PUSHER_KEY }}');
-    var channel = pusher.subscribe('ghost_demo');
+    var channel = pusher.subscribe('chat_demo');
     
-    channel.bind('incoming_digits', function(data){
+    channel.bind('incoming_chat', function(data){
     	console.log(data);
-    	display_video(data.msg); //display the new video
+    	display_new_message(data.msg); //display the new message
     });
 
     // attach click event to send_btn and post message via AJAX to server.
 	jQuery('#send_btn').click(function(){
-		digits = jQuery("#digits").val();
+		chatmsg = jQuery("#chatmsg").val();
 
-		if (digits != "") {
+		if (chatmsg != "") {
 
 			// perform ajax POST to /chat
 			jQuery.ajax({
 				url : '/chat',
 				type: 'POST',
-				data: {msg:digits},
+				data: {msg:chatmsg},
 				dataType : 'json',
 				success : function(data) {
 					console.log("received");
@@ -70,18 +70,12 @@
 		
 	})
 
-	function display_video(message) {
-		if (message == "1") {
-			video = 'hZPXzP4nXWY';
-		}
-		if (message == "2") {
-			video = 'z66jDrc1EQY';
-		}
-		video_html = '<iframe width="560" height="315" src="http://www.youtube.com/embed/' + video + '?autoplay=1" frameborder="0" allowfullscreen></iframe>';
-		jQuery('#chatlist').prepend(video_html);
+	function display_new_message(message) {
+		msg_html = "<li>" + message + "</li>";
+		jQuery('#chatlist').prepend(msg_html);
 	}
     
 
   </script>
-  
+
 {% endblock %}

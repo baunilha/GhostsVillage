@@ -53,7 +53,7 @@ def voice():
     with response.gather(numDigits=1, action="/gather") as gather:
         gather.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.")  
 
-    return render_template('index.html', response=response)
+    return str(response)
 
 
 @app.route('/gather', methods=['GET','POST'])
@@ -66,7 +66,7 @@ def gather():
 		response.play("static/audio/01TriangleShirtwaistFire.mp3")
 		app.logger.info("they pressed 1")
 		#pusher broadcasts 1
-		
+
 	else:
 		response.say("You are wrong.  Never call me again.")
 	return str(response)
@@ -76,22 +76,22 @@ def gather():
 # GET --> renders push_chat.html
 # POST --> accepts 'msg' form field and triggers PUSHER event
 @app.route('/chat', methods=['GET','POST'])
-def chat_demo():
+def ghost_demo():
 
 	# received a POST request
 	if request.method == 'POST':
-		chatmsg = request.form.get('msg')
+		digits = request.form.get('msg')
 		
-		if chatmsg:
+		if digits:
 
 			# send message for broadcast to pusher
-			p['chat_demo'].trigger('incoming_chat',{'msg':chatmsg})
+			p['ghost_demo'].trigger('incoming_digits',{'msg':digits})
 
 			# respond to ajax request
-			return jsonify(status='OK',message='message sent:%s' % chatmsg)
+			return jsonify(status='OK',message='message sent:%s' % digits)
 			
 		else:
-			return jsonify(status='ERROR',message='no chatmsg was received')
+			return jsonify(status='ERROR',message='no digits received')
 
 	else:
 
