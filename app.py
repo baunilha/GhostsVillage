@@ -39,7 +39,7 @@ def index():
 		'PUSHER_KEY' : os.environ.get('PUSHER_KEY')
 	}
 
-	return render_template('index.html')
+	return render_template('index.html', **templateData)
 
 
 @app.route("/voice", methods=['GET', 'POST'])
@@ -51,9 +51,9 @@ def voice():
     response = twiml.Response()
 
     with response.gather(numDigits=1, action="/gather") as g:
-        g.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.")
+        g.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.  Press 2 to learn about the Washignton Square Park as a burial ground.")
         
-    response.gather(numDigits=1, action="/ghost", method="POST")  
+    # response.gather(numDigits=1, action="/ghost", method="POST")  
 
     return str(response)
 
@@ -67,7 +67,14 @@ def gather():
 	if digits == "1":
 		response.play("static/audio/01TriangleShirtwaistFire.mp3")
 		app.logger.info("they pressed 1")
+		p['ghost_demo'].trigger('incoming_digits',{'msg':str(digits)})
 		#pusher broadcasts 1
+
+	if digits == "2":
+		response.play("static/audio/01TriangleShirtwaistFire.mp3")
+		app.logger.info("they pressed 2")
+		p['ghost_demo'].trigger('incoming_digits',{'msg':str(digits)})
+		#pusher broadcasts 2
 
 	else:
 		response.say("You are wrong.  Never call me again.")
