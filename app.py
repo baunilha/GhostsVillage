@@ -53,7 +53,7 @@ def voice():
     with response.gather(numDigits=1, action="/gather") as g:
         g.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.")
         
-    with response.gather(numDigits=1, action="/ghost", method="POST")  
+    response.gather(numDigits=1, action="/ghost", method="POST")  
 
     return str(response)
 
