@@ -60,7 +60,7 @@ def gather():
 	
 	if digits == "1":
 		#twilio plays audio 1
-		response.play("static/audio/01TriangleShirtwaistFire.mp3")
+		response.play("static/audio/factoryfire.mp3")
 		app.logger.info("they pressed 1")
 
 		#pusher broadcasts video 1
@@ -79,36 +79,6 @@ def gather():
 	else:
 		response.say("Never call me again.")
 	return str(response)
-
-
-# CHAT ROUTE
-# GET --> renders push_chat.html
-# POST --> accepts 'msg' form field and triggers PUSHER event
-@app.route('/chat', methods=['GET','POST'])
-def ghost_demo():
-
-	# received a POST request
-	if request.method == 'POST':
-		digits = request.form.get('msg')
-		
-		if digits:
-
-			# send message for broadcast to pusher
-			p['ghost_demo'].trigger('incoming_digits',{'msg':digits})
-
-			# respond to ajax request
-			return jsonify(status='OK',message='message sent:%s' % digits)
-			
-		else:
-			return jsonify(status='ERROR',message='no digits received')
-
-	else:
-
-		# GET request render template with pusher_key
-		templateData = {
-			'PUSHER_KEY' : os.environ.get('PUSHER_KEY')
-		}
-		return render_template('pusher_chat.html', **templateData)
 
 
 @app.errorhandler(404)
