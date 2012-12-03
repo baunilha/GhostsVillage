@@ -47,8 +47,6 @@ def voice():
     with response.gather(numDigits=1, action="/gather") as g:
         g.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.  Press 2 to learn about the Washignton Square Park as a burial ground.")
         
-    # response.gather(numDigits=1, action="/ghost", method="POST")  
-
     return str(response)
 
 
@@ -77,7 +75,9 @@ def gather():
 		
 
 	else:
-		response.say("Never call me again.")
+		with response.gather(numDigits=1, action="/gather") as g:
+			g.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.  Press 2 to learn about the Washignton Square Park as a burial ground.")
+		# response.say("Never call me again.")
 	return str(response)
 
 
