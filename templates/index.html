@@ -53,12 +53,12 @@
   function display_video(message) {
     console.dir(message);
     jQuery("img#phone").hide(); // hide the phone layer when video starts
-    var video = "0";
+    var video;
 
     if (message == "1") {
       video = 'vhSqI-JH0G4';
       
-      setInterval(displayPhoneImg,180000); // 1m50s second timer for hiding/displaying
+      setInterval(displayPhoneImg,170000); // 1m50s second timer for hiding/displaying
 
     }
     if (message == "2") {
@@ -66,7 +66,7 @@
       setInterval(displayPhoneImg,60000); // 60 second timer for hiding/displaying
     }
 
-    video_html = '<iframe width="560" height="315" src="http://www.youtube.com/embed/' + video + '?autoplay=1" frameborder="0" allowfullscreen></iframe>';
+    video_html = '<iframe width="853" height="480" src="http://www.youtube.com/embed/' + video + '?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe>';
 
     jQuery('#video_div').html(video_html);
 
