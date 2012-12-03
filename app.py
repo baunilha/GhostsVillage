@@ -76,8 +76,7 @@ def gather():
 
 	else:
 		with response.gather(numDigits=1, action="/gather") as g:
-			g.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.  Press 2 to learn about the Washignton Square Park as a burial ground.")
-		# response.say("Never call me again.")
+			g.say("Now you can listen to another story.  Press 1 to learn about the Shirtwaist Factory.  Press 2 to learn about the Washignton Square Park as a burial ground.")
 	return str(response)
 
 
