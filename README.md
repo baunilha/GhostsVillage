@@ -1,5 +1,12 @@
-## ITP DWD - Using Remote APIs
+## Ghosts' Village - Using Remote APIs
 
+Ghosts' Village is an application that uses your phone to influence the behavior of the website where its hosted.
+
+The user calls a Twilio number that gives him options through '/gather'. The user chooses one option, Twilio send the audio to the user's phone and Pusher updates the website with the new information. 
+
+The website is online at: ghostsvillage.herokuapp.com
+
+To try, go ahead!
 Download code. Open code directory in Terminal.
 
 #### #1 Create virtualenv
@@ -19,7 +26,7 @@ or
 	pip install -r requirements.txt
 
 
-2 new libraries we're using in this example, Twilio and Requests
+3 libraries we're using in this example, Twilio, Pusher and Requests
 
 
 #### #3 Start server
@@ -33,51 +40,13 @@ or
 	. venv/bin/activate
 	foreman start
 
+
+* If successful you can navigate to <a href='http://localhost:5000'>http://localhost:5000</a>.
+
 -----------
 
 
-## Getting Started with Remote APIs
-
-### Foursquare API
-
-demo **/fsq**
-
-This is a demo of passing a latitude and longitude to Foursquare Venue Search to get the venues nearby.
-
-You will need the following for the demo
-
-[Register a new application with Foursquare's developer site](https://foursquare.com/developers/apps)
-
-Take the Client ID and Client Secret and put them inside your .env file
-  
-**.env**
-
-	FOURSQUARE_CLIENT_ID=XXXXXXXXXXXXXXXX
-	FOURSQUARE_CLIENT_SECRET=XXXXXXXXXXXX
-
-
-**app.py** will use the environment variables to make the request to Foursquare.
-
-**IMPORTANT** Heroku needs your Foursquare client information too, we need to add new config variables to your app.
-
-**In your code directory in Terminal run,**
-
-	heroku config:add FOURSQUARE_CLIENT_ID=XXXXXXXXXXXXX 
-	heroku config:add FOURSQUARE_CLIENT_SECRET=XXXXXXXXXXXXXX
-
-
-### Set up Google
-Get your own Google API Key here [https://code.google.com/apis/console/b/0/](https://code.google.com/apis/console/b/0/).
-
-Put the API Key in the Javascript, in the fsq.html template file.
-
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE&sensor=false"></script>
-
-----------------
-
-## Twilio demo
-
-demo /twilio
+## Twilio
 
 ### Getting Twilio Account
 
@@ -103,39 +72,32 @@ Now let's add the Twilio account variables to Heroku.
 	heroku config:add TWILIO_PHONE_NUMBER=+XXXXXXXXX
 
 
+-----------
 
------------------
 
-## Mailgun
+## jQuery/Pusher
 
-Mailgun allows you to send email via API (you can also receive email but that's for another day).
+jQuery is a very popular and useful Javascript library that is used to minimize the amount of Javascript you need to write to manipulate HTML DOM elements, add click events and AJAX functions. We will use AJAX in all the demos on this site.
 
-Add Mailgun to your Heroku app
+## PUSHER - Realtime Web Service
 
-	heroku addons:add mailgun:starter
+[Pusher.com](http://www.pusher.com) is a great way to add realtime events to your webapp.
 
-This is the starter plan for Mailgun and they give you 300 msgs / day for free to use for development.
+Register for an account at [http://pusher.com/](http://pusher.com/). You will need to create a .env file that includes the following information about your Pusher account.
 
-Heroku and Mailgun will give you a couple of config variables. We need to place 2 variables in our .env, one of the variables we get from our Heroku config and the other variable we need to lookup via the Heroku Mailgun console panel.
+**.env**
 
-#1 Get your MAILGUN_API_KEY
+	PUSHER_APP_ID=XXXXXX
+	PUSHER_KEY=XXXXXXXXXXXXX
+	PUSHER_SECRET=XXXXXXXXXXXXXX
 
-	heroku config --shell | grep MAILGUN_API_KEY
+Save your .env file.
 
-Put the returned line into your .env file. It will look something like...
+You will have to push your new .env variables to Heroku config so their servers have your credientals.
 
-	MAILGUN_API_KEY=XXXXXXXXXXXXXXXXXXXXXXX
+In your code directory in Terminal run the following command.
 
-#2 Get your MAILGUN DOMAIN NAME
+	heroku config:add PUSHER_APP_ID=XXXXXX
+	heroku config:add PUSHER_KEY=XXXXXXXXXXXXXXX
+	heroku config:add PUSHER_SECRET=XXXXXXXXXXXXX
 
-Go to your Heroku App Console [https://dashboard.heroku.com/apps](https://dashboard.heroku.com/apps). Click on your app and go to the Addons section on the lower left, click on Mailgun Starter. 
-
-Inside the Mailgun control panel you will see your Email domains listed. Copy your email domain and put it inside your .env file
-
-	MAILGUN_DOMAIN=appXXXXXXX.mailgun.org
-
-Now, we need to share this new domain with Heroku config,
-
-	heroku config:add MAILGUN_DOMAIN=app9196816.mailgun.org
-
-You can now start your server and test the code at /mailgun.
