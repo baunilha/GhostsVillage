@@ -36,11 +36,25 @@
     var pusher = new Pusher('{{ PUSHER_KEY }}');
     var channel = pusher.subscribe('ghost_demo');
     
+    // get the digits from Twilio to display the video
     channel.bind('incoming_digits', function(data){
       console.log(data);
       
       display_video(data.msg); // display the video
     });
+
+    // change the map when there is a phone call    
+    channel.bind('incoming_call', function(data){
+      console.log(data);
+      showMapWithPoints(data); // display the map with places pointed by hiding the others
+    });
+
+
+  function showMapWithPoints(data) {
+    jQuery('img#phone').hide(); // hide the phone layer when receive a call
+    jQuery('img#map_pure').hide(); // hide the map_pure (without the places pointed)
+    jQuery('#video_div').html(''); // remove iframe from videodiv
+  }
 
 
   function displayPhoneImg() {
@@ -62,8 +76,12 @@
 
     }
     if (message == "2") {
-      video = 'z66jDrc1EQY';
-      setInterval(displayPhoneImg,60000); // 60 second timer for hiding/displaying
+      video = 'XHK62OaAJvs';
+      setInterval(displayPhoneImg,160000); // 60 second timer for hiding/displaying
+    }
+    if (message == "3") {
+      video = 'WiOpyqxcIzI';
+      setInterval(displayPhoneImg,105000); // 60 second timer for hiding/displaying
     }
 
     video_html = '<iframe width="853" height="480" src="http://www.youtube.com/embed/' + video + '?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe>';

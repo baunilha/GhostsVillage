@@ -40,12 +40,18 @@ def index():
 def voice():
 
 	# incoming call
-	# PUSHER tells browser to show map
 
     response = twiml.Response()
 
-    with response.gather(numDigits=1, action="/gather") as g:
-        g.say("Welcome to Ghosts' Village.  Press 1 to learn about the Shirtwaist Factory.  Press 2 to learn about the Washignton Square Park as a burial ground.")
+    if response:
+        p['ghost_demo'].trigger('incoming_call',showMapWithPoints(data))
+
+
+
+    with response.gather(numDigits=1, action="/gather", timeout=50) as g:
+        g.say("Welcome to Ghosts' Village.  Press 1 to hear the story of the Shirtwaist Factory Fire." ""
+        "" "To hear about the Fire Patrol Station Number 2 press number 2." "" 
+        "" "Press 3 to learn about the Washignton Square Park as a burial ground." "")
         
     return str(response)
 
@@ -67,10 +73,18 @@ def gather():
 
 	if digits == "2":
 		#twilio plays audio 2
-		response.play("static/audio/02GhostsWSP.mp3")
+		response.play("static/audio/firepatrolstation.mp3")
 		app.logger.info("they pressed 2")
 
 		#pusher broadcasts video 2
+		p['ghost_demo'].trigger('incoming_digits',{'msg':str(digits)})
+
+	if digits == "3":
+		#twilio plays audio 3
+		response.play("static/audio/washingtonsquarepark.mp3")
+		app.logger.info("they pressed 2")
+
+		#pusher broadcasts video 3
 		p['ghost_demo'].trigger('incoming_digits',{'msg':str(digits)})
 		
 
