@@ -44,7 +44,7 @@ def voice():
     response = twiml.Response()
 
     if response:
-        p['ghost_demo'].trigger('incoming_call',showMapWithPoints(data))
+        p['ghost_demo'].trigger('incoming_call',{'msg':'incoming'}) 
 
 
 
