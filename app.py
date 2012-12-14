@@ -47,11 +47,8 @@ def voice():
         p['ghost_demo'].trigger('incoming_call',{'msg':'incoming'}) 
 
 
-
     with response.gather(numDigits=1, action="/gather", timeout=50) as g:
-        g.say("Welcome to Ghosts' Village.  Press 1 to hear the story of the Shirtwaist Factory Fire." ""
-        "" "To hear about the Fire Patrol Station Number 2 press number 2." "" 
-        "" "Press 3 to learn about the Washignton Square Park as a burial ground." "")
+        g.say("Welcome to Ghosts' Village.  Press 1 to hear the story of the Shirtwaist Factory Fire.  Press 2 hear about the Fire Patrol Station Number 2.  Press 3 to learn about the Washignton Square Park as a burial ground.  Press 4 to hear the stories of the New York University Dormitory, Brittany Hall." )
         
     return str(response)
 
@@ -82,15 +79,24 @@ def gather():
 	if digits == "3":
 		#twilio plays audio 3
 		response.play("static/audio/washingtonsquarepark.mp3")
-		app.logger.info("they pressed 2")
+		app.logger.info("they pressed 3")
 
 		#pusher broadcasts video 3
+		p['ghost_demo'].trigger('incoming_digits',{'msg':str(digits)})
+
+	if digits == "4":
+		#twilio plays audio 4
+		response.play("static/audio/brittanyhall.mp3")
+		app.logger.info("they pressed 4")
+
+		#pusher broadcasts video 4
 		p['ghost_demo'].trigger('incoming_digits',{'msg':str(digits)})
 		
 
 	else:
-		with response.gather(numDigits=1, action="/gather") as g:
-			g.say("Now you can listen to another story.  Press 1 to learn about the Shirtwaist Factory.  Press 2 to learn about the Washignton Square Park as a burial ground.")
+        with response.gather(numDigits=1, action="/gather", timeout=50) as g:
+        g.say("Welcome to Ghosts' Village.  Press 1 to hear the story of the Shirtwaist Factory Fire.  Press 2 hear about the Fire Patrol Station Number 2.  Press 3 to learn about the Washignton Square Park as a burial ground.  Press 4 to hear the stories of the New York University Dormitory, Brittany Hall." )
+        
 	return str(response)
 
 

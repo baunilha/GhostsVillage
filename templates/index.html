@@ -67,6 +67,8 @@
   function display_video(message) {
     console.dir(message);
     jQuery("img#phone").hide(); // hide the phone layer when video starts
+    jQuery('#map_pure').show(); // show the map_pure (without the places pointed)
+    jQuery('#map_places').hide(); // hide the maps with the places
     var video;
 
     if (message == "1") {
@@ -77,11 +79,15 @@
     }
     if (message == "2") {
       video = 'XHK62OaAJvs';
-      setInterval(displayPhoneImg,160000); // 60 second timer for hiding/displaying
+      setInterval(displayPhoneImg,160000); // 2m40s second timer for hiding/displaying
     }
     if (message == "3") {
       video = 'WiOpyqxcIzI';
-      setInterval(displayPhoneImg,105000); // 60 second timer for hiding/displaying
+      setInterval(displayPhoneImg,105000); // 1m45s second timer for hiding/displaying
+    }
+    if (message == "4") {
+      video = 'Jo5sPLECurw';
+      setInterval(displayPhoneImg,120000); // 2m second timer for hiding/displaying
     }
 
     video_html = '<iframe width="853" height="480" src="http://www.youtube.com/embed/' + video + '?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe>';
